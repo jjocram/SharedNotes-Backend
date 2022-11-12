@@ -10,4 +10,8 @@ public interface NoteService {
     List<NoteEntity> all(String username);
 
     NoteEntity addEditor(Long noteId, String editor);
+
+    NoteEntity save(NoteEntity note, String username);
+
+    boolean delete(Long id, String username);
 }

@@ -26,7 +26,7 @@ public class NoteEntity implements Serializable {
 
     private String content;
 
-    @OneToMany(mappedBy = "note")
+    @OneToMany(mappedBy = "note", cascade = CascadeType.ALL)
     @JsonIgnore
     @ToString.Exclude
     Collection<UserNoteEntity> users;

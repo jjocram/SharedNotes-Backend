@@ -55,4 +55,29 @@ public class NoteServiceImpl implements NoteService {
         return noteEntity;
     }
 
+    @Override
+    public NoteEntity save(NoteEntity note, String username) {
+        log.info("Saving note {}", note.getName());
+        UserEntity user = userRepository.findByUsername(username);
+        if (user.hasAccessToNote(note)) {
+            return noteRepository.save(note);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean delete(Long id, String username) {
+        log.info("User {} is trying to delete note {}", username, id);
+        NoteEntity note = noteRepository.findNoteEntityById(id);
+        UserEntity user = userRepository.findByUsername(username);
+
+        if (user.isOwnerOfNote(note)) {
+            log.info("User {} deleted note {}", username, note.getName());
+            noteRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

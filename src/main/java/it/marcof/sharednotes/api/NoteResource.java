@@ -49,4 +49,30 @@ public class NoteResource {
             noteService.addEditor(id, username.getUsername());
         }
     }
+
+    @PostMapping
+    ResponseEntity<NoteEntity> create(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody NoteEntity note) {
+        return ResponseEntity.ok().body(noteService.create(note, getUsernameFromAuthorizationHeader(authorizationHeader)));
+    }
+
+    @PutMapping
+    ResponseEntity<NoteEntity> save(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody NoteEntity note) {
+        NoteEntity editedNote = noteService.save(note, getUsernameFromAuthorizationHeader(authorizationHeader));
+
+        ResponseEntity.BodyBuilder responseBuilder = editedNote != null ? ResponseEntity.ok() : ResponseEntity.status(403);
+
+        return responseBuilder.body(editedNote);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity delete(@RequestHeader(name = "Authorization") String authorizationHeader, @PathVariable Long id) {
+        String username = getUsernameFromAuthorizationHeader(authorizationHeader);
+
+        if (noteService.delete(id, username)){
+            return ResponseEntity.ok().body(null);
+        } else {
+            return ResponseEntity.status(403).body(null);
+        }
+    }
+
 }

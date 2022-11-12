@@ -42,4 +42,17 @@ public class UserEntity implements Serializable {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    public boolean hasAccessToNote(NoteEntity noteToCheck) {
+        return notes.stream()
+                .map(UserNoteEntity::getNote)
+                .anyMatch(noteToCheck::equals);
+    }
+
+    public boolean isOwnerOfNote(NoteEntity noteToCheck) {
+        return notes.stream()
+                .filter(userNoteEntity -> userNoteEntity.getRole().equals(RoleType.OWNER))
+                .map(UserNoteEntity::getNote)
+                .anyMatch(noteToCheck::equals);
+    }
 }
