@@ -32,6 +32,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private static final String BAD_CREDENTIAL_MESSAGE = "Authentication failed for username: %s and password: %s";
+    private static final String TOKEN_RESPONSE = "{\"access_token\": \"%s\", \"refresh_token\": \"%s\"}";
 
     private final AuthenticationManager authenticationManager;
 
@@ -74,8 +75,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String accessToken = JwtUtil.createAccessToken(user.getUsername(), request.getRequestURL().toString(),
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         String refreshToken = JwtUtil.createRefreshToken(user.getUsername());
-        response.addHeader("access_token", accessToken);
-        response.addHeader("refresh_token", refreshToken);
+
+        response.addHeader("Content-Type", "application/json");
+        response.getWriter().write(String.format(TOKEN_RESPONSE, accessToken, refreshToken));
+//        response.addHeader("access_token", accessToken);
+//        response.addHeader("refresh_token", refreshToken);
     }
 
     @Override
