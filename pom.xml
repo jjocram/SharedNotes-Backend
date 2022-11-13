@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>it.marcof</groupId>
-	<artifactId>SharedNotes</artifactId>
+	<artifactId>SharedNotesBackend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SharedNotes</name>
-	<description>SharedNotes</description>
+	<name>SharedNotesBackend</name>
+	<description>This is the backend for SharedNotes an example project. The frontend can be whatever consumes JSON APIs</description>
 	<properties>
 		<java.version>19</java.version>
 	</properties>
