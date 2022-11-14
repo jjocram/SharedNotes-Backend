@@ -28,6 +28,7 @@ public class UserEntity implements Serializable {
     private String password;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     Collection<UserNoteEntity> notes;
 
     @Override
